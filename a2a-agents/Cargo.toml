@@ -7,6 +7,9 @@ description = "Example agent implementations for the A2A Protocol"
 license = "MIT"
 
 [dependencies]
+a2a-gateway = { path = "../a2a-gateway" }
+anyhow = "1.0"
+axum = "0.7"
 a2a-rs = { path = "../a2a-rs", features = ["full"] }
 
 # Core dependencies
