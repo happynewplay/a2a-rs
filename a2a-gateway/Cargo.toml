@@ -1,0 +1,17 @@
+[package]
+name = "a2a-gateway"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+a2a-rs = { path = "../a2a-rs" }
+tokio = { version = "1", features = ["full"] }
+axum = "0.7"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+dashmap = "5.5"
+chrono = { version = "0.4", features = ["serde"] }
+async-trait = "0.1.77"
+
+[dev-dependencies]
+reqwest = { version = "0.11", features = ["json"] }
