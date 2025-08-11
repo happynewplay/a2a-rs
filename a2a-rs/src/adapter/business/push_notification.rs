@@ -254,8 +254,11 @@ impl PushNotificationSender for HttpPushNotificationSender {
     }
 }
 
+use crate::port::notification_manager::AsyncNotificationManager;
+use crate::domain::TaskPushNotificationConfig;
+
 /// No-op push notification sender that does nothing
-#[derive(Default)]
+#[derive(Default, Clone, Copy)]
 pub struct NoopPushNotificationSender;
 
 #[async_trait]
@@ -275,6 +278,32 @@ impl PushNotificationSender for NoopPushNotificationSender {
         _event: &TaskArtifactUpdateEvent,
     ) -> Result<(), A2AError> {
         // Do nothing - no-op implementation
+        Ok(())
+    }
+}
+
+// Implement the manager trait so it can be used by the processor.
+#[async_trait]
+impl AsyncNotificationManager for NoopPushNotificationSender {
+    async fn set_task_notification<'a>(
+        &self,
+        _config: &'a TaskPushNotificationConfig,
+    ) -> Result<TaskPushNotificationConfig, A2AError> {
+        Err(A2AError::UnsupportedOperation(
+            "Push notifications are not supported by the Noop sender.".to_string(),
+        ))
+    }
+
+    async fn get_task_notification<'a>(
+        &self,
+        _task_id: &'a str,
+    ) -> Result<TaskPushNotificationConfig, A2AError> {
+        Err(A2AError::TaskNotFound(
+            "Task not found because push notifications are not supported.".to_string(),
+        ))
+    }
+
+    async fn remove_task_notification<'a>(&self, _task_id: &'a str) -> Result<(), A2AError> {
         Ok(())
     }
 }

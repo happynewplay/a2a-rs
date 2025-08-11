@@ -6,7 +6,7 @@ use axum::{
     response::Json,
 };
 use chrono::Duration;
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 use std::sync::Arc;
 
 // A type alias for our shared state. This makes it easier to change the
@@ -15,24 +15,24 @@ pub type AppState = Arc<dyn AgentRegistry>;
 
 // --- Request Body Structs ---
 
-#[derive(Deserialize)]
+#[derive(Deserialize, Serialize)]
 pub struct RegisterRequest {
     pub agent_card: AgentCard,
     pub ttl_seconds: u64,
 }
 
-#[derive(Deserialize)]
+#[derive(Deserialize, Serialize)]
 pub struct DeregisterRequest {
     pub agent_id: String,
 }
 
-#[derive(Deserialize)]
+#[derive(Deserialize, Serialize)]
 pub struct HeartbeatRequest {
     pub agent_id: String,
     pub ttl_seconds: u64,
 }
 
-#[derive(Deserialize)]
+#[derive(Deserialize, Serialize)]
 pub struct SearchQuery {
     pub skill: String,
 }
